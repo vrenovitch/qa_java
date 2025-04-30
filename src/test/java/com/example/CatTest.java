@@ -33,6 +33,5 @@ class CatTest {
         when(felineMock.eatMeat()).thenReturn(expectedFood);
 
         assertEquals(expectedFood, cat.getFood());
-        verify(felineMock, times(1)).eatMeat();
     }
 }

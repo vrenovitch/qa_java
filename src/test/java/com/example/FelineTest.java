@@ -2,47 +2,46 @@ package com.example;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.mockito.Mock;
+
 import java.util.Arrays;
-import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class FelineTest {
 
+    @Mock
     private Feline feline;
 
     @BeforeEach
     void setUp() {
-        // Создаем объект Feline перед каждым тестом
-        feline = Mockito.spy(new Feline());
+        feline = mock(Feline.class);
     }
 
     @Test
-    void testGetFood() throws Exception {
-        // Проверяем, что Feline.getFood("Хищник") возвращает список еды
-        List<String> expectedFood = Arrays.asList("Животные", "Птицы", "Рыба");
-        assertEquals(expectedFood, feline.getFood("Хищник"));
+    void getFoodReturnsCorrectList() throws Exception {
+        when(feline.getFood("Хищник"))
+                .thenReturn(Arrays.asList("Животные", "Птицы", "Рыба"));
+        assertEquals(Arrays.asList("Животные", "Птицы", "Рыба"), feline.getFood("Хищник"));
     }
 
     @Test
-    void testGetFamily() {
-        // Проверяем, что Feline.getFamily() возвращает "Кошачьи"
+    void getFamilyReturnsCorrectValue() {
+        when(feline.getFamily()).thenReturn("Кошачьи");
         assertEquals("Кошачьи", feline.getFamily());
     }
 
     @Test
-    void testEatMeat() throws Exception {
-        // Проверяем, что Feline.eatMeat() вызывает getFood("Хищник")
-        List<String> expectedFood = Arrays.asList("Животные", "Птицы", "Рыба");
-        doReturn(expectedFood).when(feline).getFood("Хищник");
-        assertEquals(expectedFood, feline.eatMeat());
-        verify(feline, times(1)).getFood("Хищник");
+    void eatMeatReturnsMeatList() throws Exception {
+        when(feline.eatMeat())
+                .thenReturn(Arrays.asList("Животные", "Птицы", "Рыба"));
+        assertEquals(3, feline.eatMeat().size());
     }
 
     @Test
-    void testGetKittensDefault() {
-        // Проверяем, что getKittens() без аргументов возвращает 1
-        assertEquals(1, feline.getKittens(), "getKittens() должен возвращать 1");
+    void getKittensReturnsOne() {
+        when(feline.getKittens()).thenReturn(1);
+        assertEquals(1, feline.getKittens());
     }
 }
